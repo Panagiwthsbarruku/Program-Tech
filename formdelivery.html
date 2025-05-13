@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="Dashboard.css">
+  <title>Φόρμα Παραγγελίας</title>
+</head>
+<body>
+  <section class="product-form">
+    <h2>Διαχείριση Παραγγελιών</h2>
+    <form id="productForm">
+      <label>Αριθμός Καταστήματος
+        <input type="number" name="storeNumber" required />
+      </label>
+      <label>Όνομα προϊόντος
+        <input type="text" name="name" required />
+      </label>
+      <label>Κωδικός προϊόντος
+        <input type="text" name="code" required />
+      </label>
+      <label>Κατηγορία προϊόντος
+        <select name="category" required>
+          <option value="μακαρόνια">Μακαρόνια</option>
+          <option value="ρύζι">Ρύζι</option>
+          <option value="γάλα">Γάλα</option>
+        </select>
+      </label>
+      <label>Τεμάχια
+        <input type="number" name="quantity" required />
+      </label>
+      <div class="delivery-form">
+        <label>Από
+          <input type="date" name="fromDate" required />
+        </label>
+        <label>Μέχρι
+          <input type="date" name="toDate" required />
+        </label>
+      </div>
+      <button type="submit" class="btn-primary">Αποθήκευση</button>
+    </form>
+  </section>
+
+  <div class="product-list printable" id="productList">
+    <h3>Καταχωρημένα Προϊόντα</h3>
+    <table border="1" id="productTable">
+      <thead>
+        <tr>
+          <th>Κατάστημα</th>
+          <th>Όνομα</th>
+          <th>Κωδικός</th>
+          <th>Κατηγορία</th>
+          <th>Τεμάχια</th>
+          <th>Από - Μέχρι</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button class="btn-primary" onclick="handlePrint()">Εκτύπωση Παραγγελίας</button>
+  </div>
+  <div>
+    <h4>Εμφάνιση κατηγορίας</h4>
+    <button onclick="filterByCategory('μακαρόνια')">Μακαρόνια</button>
+    <button onclick="filterByCategory('ρύζι')">Ρύζι</button>
+    <button onclick="filterByCategory('γάλα')">Γάλα</button>
+  </div>
+<div id="printDate" class="print-only"></div>
+  <script>
+   const form = document.getElementById('productForm');
+const tableBody = document.querySelector('#productTable tbody');
+const printDateElement = document.getElementById('printDate');
+const products = [];
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+  const data = new FormData(form);
+  const product = {
+    storeNumber: data.get('storeNumber'),
+    name: data.get('name'),
+    code: data.get('code'),
+    category: data.get('category'),
+    quantity: data.get('quantity'),
+    fromDate: data.get('fromDate'),
+    toDate: data.get('toDate'),
+  };
+  products.push(product);
+  renderProduct(product);
+  form.reset();
+});
+
+function renderProduct(product) {
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td>${product.storeNumber}</td>
+    <td>${product.name}</td>
+    <td>${product.code}</td>
+    <td>${product.category}</td>
+    <td>${product.quantity}</td>
+  `;
+  tableBody.appendChild(row);
+}
+
+function handlePrint() {
+  const date = new Date().toLocaleDateString();
+  printDateElement.textContent = `Ημερομηνία Εκτύπωσης: ${date}`;
+  window.print();
+}
+
+function filterByCategory(category) {
+  localStorage.setItem('selectedCategory', category);
+  window.location.href = 'category.html';
+}
+
+  </script>
+</body>
+</html>
