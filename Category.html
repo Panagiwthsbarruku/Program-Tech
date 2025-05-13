@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Dashboard.css">
+    <script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons.js" defer></script>
+    <link rel="stylesheet" href="get_orders.php">
+    <link rel="stylesheet" href="save_order.php">
+  <title>Κατηγορία Προϊόντων</title>
+</head>
+<body>
+  <h2>Κατηγορία: <span id="categoryName"></span></h2>
+  <table border="1" id="categoryTable">
+    <thead>
+      <tr>
+        <th>Όνομα</th>
+        <th>Κωδικός</th>
+        <th>Τεμάχια</th>
+        <th>Κατάστημα</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <button onclick="window.print()">Εκτύπωση</button>
+
+  <script>
+    const category = localStorage.getItem('selectedCategory');
+    document.getElementById('categoryName').textContent = category;
+
+    const allProducts = JSON.parse(localStorage.getItem('products') || '[]');
+    const categoryProducts = allProducts.filter(p => p.category === category);
+
+    const tbody = document.querySelector('#categoryTable tbody');
+    categoryProducts.forEach(p => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${p.name}</td>
+        <td>${p.code}</td>
+        <td>${p.quantity}</td>
+        <td>${p.storeNumber}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  </script>
+  <script src="Category.js"></script>
+</body>
+</html>
