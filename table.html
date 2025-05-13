@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <title>Πίνακας Πωλήσεων</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .filters {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Πίνακας Πωλήσεων</h1>
+
+  <div class="filters">
+    <button onclick="showSales('day')">Ημερήσιες</button>
+    <button onclick="showSales('week')">Εβδομαδιαίες</button>
+    <button onclick="showSales('month')">Μηνιαίες</button>
+  </div>
+
+  <table id="sales-table">
+    <thead>
+      <tr>
+        <th>Ημερομηνία</th>
+        <th>Προϊόν</th>
+        <th>Ποσότητα</th>
+        <th>Σύνολο (€)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Τα δεδομένα θα μπουν εδώ από JavaScript -->
+    </tbody>
+  </table>
+
+  <script>
+    const salesData = {
+      day: [
+        { date: '2025-05-08', product: 'Μακβελ', qty: 50, total: 200 },
+        { date: '2025-05-08', product: 'Σαλτσα pummaro', qty: 40, total: 80 },
+        { date: '2025-05-08', product: 'Σαλτσα κυκνος', qty: 90, total: 80 },
+        { date: '2025-05-08', product: 'Σαλτσα κιτρινι', qty: 60, total: 80 },
+        { date: '2025-05-08', product: 'Σαλτσα barila', qty: 40, total: 80 },
+        { date: '2025-05-08', product: 'Μακαρόνια Misko', qty: 30, total: 80 },
+        { date: '2025-05-08', product: 'Κανελόνια Melissa', qty: 80, total: 80 }
+      ],
+      week: [
+        { date: '2025-05-02', product: 'Μισκο', qty: 60, total: 60 },
+        { date: '2025-05-04', product: 'Αλευρι Μανα', qty: 100, total: 150 },
+        { date: '2025-05-07', product: 'Ριζοφκοφρέτες', qty: 50, total: 60 }
+      ],
+      month: [
+        { date: '2025-05-01', product: 'Μακαρονια melissa', qty: 100, total: 300 },
+        { date: '2025-05-03', product: 'Παπαδοπουλου Μπισκοτα', qty: 50, total: 260 },
+        { date: '2025-05-05', product: 'Λατζιμάς 3L', qty: 8, total: 320 }
+      ]
+    };
+
+    function showSales(type) {
+      const tbody = document.querySelector("#sales-table tbody");
+      tbody.innerHTML = ""; // Καθαρισμός του πίνακα
+
+      salesData[type].forEach(sale => {
+        const row = `<tr>
+          <td>${sale.date}</td>
+          <td>${sale.product}</td>
+          <td>${sale.qty}</td>
+          <td>${sale.total.toFixed(2)}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    // Προεπιλογή: εμφάνιση ημερήσιων
+    showSales('day');
+  </script>
+
+</body>
+</html>
