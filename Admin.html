@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="Admin.css">
+  <title>Login Form</title>
+  <style>
+    #operatorNamePreview {
+      font-weight: bold;
+      color: green;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <form id="loginForm">
+    <img src="Add a heading.png" width="60" alt="Logo">
+    <h3 style="text-align: center; color: rgba(4, 152, 33, 0.836); font-size: larger; font-weight: 800;">
+      Program-Tech
+    </h3>
+
+    <label>
+      Χειριστής:
+      <input type="text" id="code" required>
+    </label>
+    <div id="operatorNamePreview"></div> <!-- Εδώ εμφανίζεται το όνομα -->
+    
+    <button type="submit">Σύνδεση</button>
+  </form>
+
+  <p id="messageBox" class="message"></p>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const messageBox = document.getElementById('messageBox');
+    const codeInput = document.getElementById('code');
+    const operatorNamePreview = document.getElementById('operatorNamePreview');
+
+    const operators = {
+      "69": "Παπαδόπουλος Νίκος",
+      "70": "Κωνσταντίνου Ελένη"
+    };
+
+    // Εμφάνιση ονόματος χειριστή όταν πληκτρολογείται
+    codeInput.addEventListener('input', () => {
+      const code = codeInput.value.trim();
+      if (operators[code]) {
+        operatorNamePreview.textContent = operators[code];
+      } else {
+        operatorNamePreview.textContent = "";
+      }
+    });
+
+    // Σύνδεση
+    loginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const code = codeInput.value.trim();
+
+      if (operators[code]) {
+        localStorage.setItem('operatorName', operators[code]);
+        window.location.href = 'Dashboard.html';
+      } else {
+        messageBox.textContent = "Μη έγκυρος κωδικός!";
+        messageBox.className = "message error";
+      }
+    });
+  </script>
+</body>
+</html>
